@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">PageManager_final</string>
+    <string name="facebook_app_id">1784960235121928</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_view_posts">ViewPosts</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+</resources>
