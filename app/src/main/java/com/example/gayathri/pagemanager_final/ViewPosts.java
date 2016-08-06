@@ -11,7 +11,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -131,6 +134,8 @@ public class ViewPosts extends AppCompatActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_view_posts, container, false);
             final TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setTextSize(20);
+            textView.setMovementMethod(new ScrollingMovementMethod());
             final StringBuilder allPublishedPosts = new StringBuilder();
             final StringBuilder allUnPublishedPosts = new StringBuilder();
 
@@ -171,7 +176,7 @@ public class ViewPosts extends AppCompatActivity {
                                                                 // allPublishedPosts.append(obj.getString("message")+"\n");
                                                                 //Log.d("Message:",message);
                                                                 //Log.d("Like count:",like_count);
-                                                                textView.append(message+"\n");
+                                                                textView.append(message+"\n\n");
 
                                                             }
 
@@ -226,8 +231,9 @@ public class ViewPosts extends AppCompatActivity {
                                                             for(int i=0;i<data.length();i++)
                                                             {
                                                                 JSONObject obj = data.getJSONObject(i);
-                                                                allPublishedPosts.append(obj.getString("message")+"\n");
-                                                                textView.append(obj.getString("message")+"\n");
+                                                                String message = obj.getString("message")+"\n\n";
+                                                                allPublishedPosts.append(message);
+                                                                textView.append(message);
                                                             }
 
                                                         }catch(JSONException e)
@@ -287,7 +293,7 @@ public class ViewPosts extends AppCompatActivity {
                                                                 JSONObject insights = obj.getJSONObject("insights");
                                                                 String num_views=insights.getJSONArray("data").getJSONObject(0).getJSONArray("values").getJSONObject(0).getString("value");
                                                                 String num_likes=insights.getJSONArray("data").getJSONObject(1).getJSONArray("values").getJSONObject(0).getString("value");
-                                                                textView.append(message+"\n"+"Number of Views: "+num_views+"\n"+"Number of Likes: "+num_likes+"\n");
+                                                                textView.append(message+"\n"+"Views: "+num_views+"\n"+"Likes: "+num_likes+"\n\n");
 
                                                             }
                                                         }catch(JSONException e)
