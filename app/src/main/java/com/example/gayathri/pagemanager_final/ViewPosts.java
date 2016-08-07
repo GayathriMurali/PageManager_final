@@ -1,5 +1,6 @@
 package com.example.gayathri.pagemanager_final;
 
+import android.graphics.Color;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -21,6 +22,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +36,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -113,6 +118,7 @@ public class ViewPosts extends AppCompatActivity {
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
+        private static final String PAGE_ID = "1248380195195131";
 
         public PlaceholderFragment() {
         }
@@ -133,9 +139,16 @@ public class ViewPosts extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_view_posts, container, false);
-            final TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setTextSize(20);
-            textView.setMovementMethod(new ScrollingMovementMethod());
+            //final TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            //textView.setTextSize(20);
+            //textView.setMovementMethod(new ScrollingMovementMethod());
+            final TableLayout tl = (TableLayout) rootView.findViewById(R.id.maintable);
+            //TextView tv = new TextView(getActivity());
+            //tv.setText(message);
+            //TableRow tr = new TableRow(getActivity());
+            //tr.addView(tv);
+
+
             final StringBuilder allPublishedPosts = new StringBuilder();
             final StringBuilder allUnPublishedPosts = new StringBuilder();
 
@@ -158,7 +171,7 @@ public class ViewPosts extends AppCompatActivity {
                                    // params.putString("fields","message,likes.summary(true)");
                                     final AccessToken accessToken_obj = new AccessToken(accessToken, AccessToken.getCurrentAccessToken().getApplicationId(),
                                             AccessToken.getCurrentAccessToken().getUserId(), AccessToken.getCurrentAccessToken().getPermissions(), AccessToken.getCurrentAccessToken().getDeclinedPermissions(), AccessToken.getCurrentAccessToken().getSource(), AccessToken.getCurrentAccessToken().getExpires(), AccessToken.getCurrentAccessToken().getLastRefresh());
-                                    new GraphRequest(accessToken_obj, "/1248380195195131/feed", null, HttpMethod.GET,
+                                    new GraphRequest(accessToken_obj, "/" + PAGE_ID + "/feed", null, HttpMethod.GET,
                                             new GraphRequest.Callback() {
                                                 public void onCompleted(GraphResponse response) {
 
@@ -173,10 +186,37 @@ public class ViewPosts extends AppCompatActivity {
                                                                // JSONObject obj_likes=obj.getJSONObject("likes").getJSONObject("summary");
                                                                 //String like_count=obj_likes.get("total_count").toString();
                                                                 String message = obj.getString("message");
+                                                                String createdTime = obj.getString("created_time");
                                                                 // allPublishedPosts.append(obj.getString("message")+"\n");
                                                                 //Log.d("Message:",message);
                                                                 //Log.d("Like count:",like_count);
-                                                                textView.append(message+"\n\n");
+                                                                //textView.append(message+"\n\n");
+
+                                                                TextView tv1 = new TextView(getActivity());
+                                                                tv1.setText(message);
+                                                                tv1.setTextSize(20);
+                                                                tv1.setSingleLine(false);
+
+                                                                try {
+                                                                    createdTime = new SimpleDateFormat("MM/dd/yyyy KK:mm:ss a").format(
+                                                                            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(obj.getString("created_time"))).toString();
+                                                                } catch (ParseException e) {
+                                                                    e.printStackTrace();
+                                                                }
+
+                                                                TextView tv2 = new TextView(getActivity());
+                                                                tv2.setText("(Created time: " + createdTime + ")");
+                                                                tv2.setTextColor(Color.parseColor("#B03060"));
+                                                                tv2.setTextSize(15);
+
+                                                                TableRow tr1 = new TableRow(getActivity());
+                                                                tr1.addView(tv1);
+                                                                tr1.setPadding(0, 0, 0, 1);
+                                                                TableRow tr2 = new TableRow(getActivity());
+                                                                tr2.addView(tv2);
+                                                                tr2.setPadding(0, 0, 0, 15);
+                                                                tl.addView(tr1, new TableLayout.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+                                                                tl.addView(tr2, new TableLayout.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
 
                                                             }
 
@@ -222,7 +262,7 @@ public class ViewPosts extends AppCompatActivity {
                                     AccessToken accessToken_obj = new AccessToken(accessToken, AccessToken.getCurrentAccessToken().getApplicationId(),
                                             AccessToken.getCurrentAccessToken().getUserId(), AccessToken.getCurrentAccessToken().getPermissions(), AccessToken.getCurrentAccessToken().getDeclinedPermissions(), AccessToken.getCurrentAccessToken().getSource(), AccessToken.getCurrentAccessToken().getExpires(), AccessToken.getCurrentAccessToken().getLastRefresh());
 
-                                    new GraphRequest(accessToken_obj, "/1248380195195131/promotable_posts", params, HttpMethod.GET,
+                                    new GraphRequest(accessToken_obj, "/" + PAGE_ID + "/promotable_posts", params, HttpMethod.GET,
                                             new GraphRequest.Callback() {
                                                 public void onCompleted(GraphResponse response) {
                                                     if (response.getError() == null) {
@@ -231,9 +271,36 @@ public class ViewPosts extends AppCompatActivity {
                                                             for(int i=0;i<data.length();i++)
                                                             {
                                                                 JSONObject obj = data.getJSONObject(i);
-                                                                String message = obj.getString("message")+"\n\n";
+                                                                String message = obj.getString("message");
+                                                                String createdTime = obj.getString("created_time");
                                                                 allPublishedPosts.append(message);
-                                                                textView.append(message);
+                                                                //textView.append(message);
+
+                                                                TextView tv1 = new TextView(getActivity());
+                                                                tv1.setText(message);
+                                                                tv1.setTextSize(20);
+                                                                tv1.setSingleLine(false);
+
+                                                                try {
+                                                                    createdTime = new SimpleDateFormat("MM/dd/yyyy KK:mm:ss a").format(
+                                                                            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(obj.getString("created_time"))).toString();
+                                                                } catch (ParseException e) {
+                                                                    e.printStackTrace();
+                                                                }
+
+                                                                TextView tv2 = new TextView(getActivity());
+                                                                tv2.setText("(Created time: " + createdTime + ")");
+                                                                tv2.setTextColor(Color.parseColor("#B03060"));
+                                                                tv2.setTextSize(15);
+
+                                                                TableRow tr1 = new TableRow(getActivity());
+                                                                tr1.addView(tv1);
+                                                                tr1.setPadding(0, 0, 0, 1);
+                                                                TableRow tr2 = new TableRow(getActivity());
+                                                                tr2.addView(tv2);
+                                                                tr2.setPadding(0, 0, 0, 15);
+                                                                tl.addView(tr1, new TableLayout.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+                                                                tl.addView(tr2, new TableLayout.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
                                                             }
 
                                                         }catch(JSONException e)
@@ -277,7 +344,7 @@ public class ViewPosts extends AppCompatActivity {
                                     params.putString("fields","message,insights.metric(post_impressions,post_reactions_like_total)");
                                     final AccessToken accessToken_obj = new AccessToken(accessToken, AccessToken.getCurrentAccessToken().getApplicationId(),
                                             AccessToken.getCurrentAccessToken().getUserId(), AccessToken.getCurrentAccessToken().getPermissions(), AccessToken.getCurrentAccessToken().getDeclinedPermissions(), AccessToken.getCurrentAccessToken().getSource(), AccessToken.getCurrentAccessToken().getExpires(), AccessToken.getCurrentAccessToken().getLastRefresh());
-                                    new GraphRequest(accessToken_obj, "/1248380195195131/posts", params, HttpMethod.GET,
+                                    new GraphRequest(accessToken_obj, "/" + PAGE_ID + "/posts", params, HttpMethod.GET,
                                             new GraphRequest.Callback() {
                                                 public void onCompleted(GraphResponse response) {
 
@@ -293,7 +360,26 @@ public class ViewPosts extends AppCompatActivity {
                                                                 JSONObject insights = obj.getJSONObject("insights");
                                                                 String num_views=insights.getJSONArray("data").getJSONObject(0).getJSONArray("values").getJSONObject(0).getString("value");
                                                                 String num_likes=insights.getJSONArray("data").getJSONObject(1).getJSONArray("values").getJSONObject(0).getString("value");
-                                                                textView.append(message+"\n"+"Views: "+num_views+"\n"+"Likes: "+num_likes+"\n\n");
+                                                                //textView.append(message+"\n"+"Views: "+num_views+"\n"+"Likes: "+num_likes+"\n\n");
+
+                                                                TextView tv1 = new TextView(getActivity());
+                                                                tv1.setText(message);
+                                                                tv1.setTextSize(20);
+                                                                tv1.setSingleLine(false);
+
+                                                                TextView tv2 = new TextView(getActivity());
+                                                                tv2.setText("(Views: " + num_views + ", Likes: " + num_likes + ")");
+                                                                tv2.setTextColor(Color.parseColor("#B03060"));
+                                                                tv2.setTextSize(15);
+
+                                                                TableRow tr1 = new TableRow(getActivity());
+                                                                tr1.addView(tv1);
+                                                                tr1.setPadding(0, 0, 0, 1);
+                                                                TableRow tr2 = new TableRow(getActivity());
+                                                                tr2.addView(tv2);
+                                                                tr2.setPadding(0, 0, 0, 15);
+                                                                tl.addView(tr1, new TableLayout.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+                                                                tl.addView(tr2, new TableLayout.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
 
                                                             }
                                                         }catch(JSONException e)
