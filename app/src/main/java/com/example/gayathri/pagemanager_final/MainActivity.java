@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     CallbackManager callbackManager;
     ShareDialog shareDialog;
     private TextView info;
-    protected String pageID="1248380195195131";
+    private static final String PAGE_ID = "1248380195195131";
     protected LoginButton loginButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

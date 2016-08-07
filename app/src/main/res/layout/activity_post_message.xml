@@ -15,14 +15,55 @@
         android:hint="What's on your mind"
         android:inputType="textMultiLine" />
 
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="schedule"
+        android:id="@+id/scheduleChkBox"
+        android:onClick="schedulePost"
+        android:layout_alignLeft="@+id/PostButton"
+        android:layout_below="@+id/MessageBox" />
+
+    <!--DatePicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/datePicker"
+        android:layout_below="@+id/MessageBox"
+        android:layout_alignStart="@+id/SaveButton" />
+
+    <TimePicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/timePicker"
+        android:layout_above="@+id/SaveButton"
+        android:layout_toEndOf="@+id/PostButton" /-->
+
+    <!--EditText
+        android:id="@+id/DateBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:hint="Date"
+        android:layout_below="@+id/MessageBox"
+        android:layout_alignLeft="@id/SaveButton"/>
+
+    <EditText
+        android:id="@+id/TimeBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:hint="Time"
+        android:layout_below="@+id/DateBox"
+        android:layout_alignLeft="@id/SaveButton"/-->
+
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="shareFacebook"
         android:text="Post"
         android:id="@+id/PostButton"
-        android:layout_marginTop="74dp"
-        android:layout_below="@+id/MessageBox"
+        android:layout_centerVertical="true"
         android:layout_alignParentStart="true" />
 
     <Button
@@ -42,5 +83,37 @@
         android:id="@+id/ViewButton"
         android:layout_alignBottom="@+id/SaveButton"
         android:layout_alignParentEnd="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Date"
+        android:id="@+id/datebutton"
+        android:layout_below="@+id/scheduleChkBox"
+        android:layout_toEndOf="@+id/SaveButton" />
+
+    <EditText
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/in_date"
+        android:layout_toLeftOf="@id/datebutton"
+        android:layout_below="@id/scheduleChkBox"/>
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Time"
+        android:id="@+id/timebutton"
+        android:layout_below="@+id/datebutton"
+        android:layout_toEndOf="@+id/SaveButton" />
+
+    <EditText
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/in_time"
+        android:layout_toLeftOf="@id/timebutton"
+        android:layout_below="@id/in_date"/>
 
 </RelativeLayout>
